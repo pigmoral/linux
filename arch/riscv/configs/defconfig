@@ -299,3 +299,5 @@ CONFIG_DEBUG_KERNEL=y
 CONFIG_DEBUG_FS=y
 # CONFIG_RUNTIME_TESTING_MENU is not set
 CONFIG_MEMTEST=y
+CONFIG_RESET_K230=y
+CONFIG_INITRAMFS_SOURCE="/home/pigmoral/Playground/boards/k230/mkkernel-k230/initramfs.cpio"
