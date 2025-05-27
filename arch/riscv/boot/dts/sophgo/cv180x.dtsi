@@ -25,6 +25,11 @@
 		#size-cells = <1>;
 		ranges;
 
+		sec_sys: syscon@20b0000 {
+			compatible = "sophgo,cv1800b-syscon", "syscon";
+			reg = <0x020b0000 0x1000>;
+		};
+
 		rst: reset-controller@3003000 {
 			compatible = "sophgo,cv1800b-reset";
 			reg = <0x3003000 0x1000>;
@@ -331,6 +336,12 @@
 			snps,dma-masters = <2>;
 			snps,data-width = <2>;
 			status = "disabled";
+		};
+
+		c906l: c906l-rproc {
+			compatible = "sophgo,cv1800b-c906l";
+			resets = <&rst RST_CPUSYS2>;
+			sophgo,syscon = <&sec_sys>;
 		};
 	};
 };

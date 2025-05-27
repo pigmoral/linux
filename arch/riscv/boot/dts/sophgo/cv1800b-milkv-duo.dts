@@ -28,7 +28,7 @@
 		#size-cells = <1>;
 		ranges;
 
-		coprocessor_rtos: region@83f40000 {
+		c906l_mem: region@83f40000 {
 			reg = <0x83f40000 0xc0000>;
 			no-map;
 		};
@@ -98,5 +98,11 @@
 &uart0 {
 	pinctrl-0 = <&uart0_cfg>;
 	pinctrl-names = "default";
+	status = "okay";
+};
+
+&c906l {
+	firmware-name = "c906l-firmware.elf";
+	memory-region = <&c906l_mem>;
 	status = "okay";
 };
