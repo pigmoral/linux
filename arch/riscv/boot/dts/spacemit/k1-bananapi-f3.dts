@@ -30,6 +30,18 @@
 			default-state = "on";
 		};
 	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		n308_sram: sram@c0800000 {
+			compatible = "shared-dma-pool";
+			reg = <0x0 0xc0800000 0x0 0x40000>;
+			no-map;
+		};
+	};
 };
 
 &emmc {
@@ -95,5 +107,11 @@
 &uart0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart0_2_cfg>;
+	status = "okay";
+};
+
+&n308_rproc {
+	firmware-name = "n308.elf";
+	memory-region = <&n308_sram>;
 	status = "okay";
 };
