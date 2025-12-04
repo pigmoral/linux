@@ -306,6 +306,13 @@
 #define CLK_V2D			60
 #define CLK_EMMC_BUS		61
 
+/* RCPU clocks */
+#define CLK_RCPU_UART0		0
+
+/* APMU clocks */
+#define CLK_AUDIO_AXI		0
+#define CLK_AUDIO_APB		1
+
 /* APMU resets */
 #define RESET_CCIC_4X		0
 #define RESET_CCIC1_PHY		1

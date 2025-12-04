@@ -349,6 +349,7 @@
 		syscon_rcpu: system-controller@c0880000 {
 			compatible = "spacemit,k1-syscon-rcpu";
 			reg = <0x0 0xc0880000 0x0 0x2048>;
+			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};
 
@@ -361,6 +362,7 @@
 		syscon_audpmu: system-controller@c088c000 {
 			compatible = "spacemit,k1-syscon-audpmu";
 			reg = <0x0 0xc088c000 0x0 0x40>;
+			#clock-cells = <1>;
 		};
 
 		syscon_apbc: system-controller@d4015000 {
@@ -664,6 +666,20 @@
 			#size-cells = <2>;
 			dma-ranges = <0x0 0x00000000 0x0 0x00000000 0x0 0x80000000>,
 				     <0x1 0x00000000 0x1 0x80000000 0x3 0x00000000>;
+
+			r_uart0: serial@c0881000 {
+				compatible = "spacemit,k1-uart",
+					     "intel,xscale-uart";
+				reg = <0x0 0xc0881000 0x0 0x100>;
+				clocks = <&syscon_rcpu CLK_RCPU_UART0>,
+					 <&syscon_mpmu CLK_SLOW_UART>;
+				clock-names = "core", "bus";
+				resets = <&syscon_rcpu RESET_RCPU_UART0>;
+				interrupts = <0>;
+				reg-shift = <2>;
+				reg-io-width = <4>;
+				status = "disabled";
+			};
 
 			pdma: dma-controller@d4000000 {
 				compatible = "spacemit,k1-pdma";

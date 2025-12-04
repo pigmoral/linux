@@ -14,6 +14,7 @@
 		ethernet0 = &eth0;
 		ethernet1 = &eth1;
 		serial0 = &uart0;
+		serial1 = &r_uart0;
 	};
 
 	chosen {
@@ -107,6 +108,12 @@
 &uart0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart0_2_cfg>;
+	status = "okay";
+};
+
+&r_uart0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&r_uart0_1_cfg>;
 	status = "okay";
 };
 

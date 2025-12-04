@@ -158,4 +158,7 @@ to_spacemit_ccu_adev(struct auxiliary_device *adev)
 #define APBC2_KPC_CLK_RST		0x0014
 #define APBC2_GPIO_CLK_RST		0x001c
 
+/* AUDPMU register offsets */
+#define AUDPMU_AUDIO_BUS_CLK_RES_CTRL	0x38
+
 #endif /* __SOC_K1_SYSCON_H__ */

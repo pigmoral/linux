@@ -59,6 +59,17 @@
 		};
 	};
 
+	r_uart0_1_cfg: r-uart0-1-cfg {
+		r-uart0-1-pins {
+			pinmux = <K1_PADCONF(47, 1)>,
+				 <K1_PADCONF(48, 1)>;
+
+			bias-pull-up = <0>;
+			drive-strength = <32>;
+			power-source = <3300>;
+		};
+	};
+
 	uart0_2_cfg: uart0-2-cfg {
 		uart0-2-pins {
 			pinmux = <K1_PADCONF(68, 2)>,

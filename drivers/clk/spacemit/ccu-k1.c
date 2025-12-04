@@ -717,6 +717,24 @@ CCU_GATE_DEFINE(emac1_ptp_clk, CCU_PARENT_HW(pll2_d6), APMU_EMAC1_CLK_RES_CTRL, 
 CCU_GATE_DEFINE(emmc_bus_clk, CCU_PARENT_HW(pmua_aclk), APMU_PMUA_EM_CLK_RES_CTRL, BIT(3), 0);
 /* APMU clocks end */
 
+/* RCPU clocks start */
+static const struct clk_parent_data rcpu_uart_parents[] = {
+	CCU_PARENT_HW(pll1_aud_24p5),
+	CCU_PARENT_HW(pll1_aud_245p7),
+	CCU_PARENT_NAME(vctcxo_24m),
+	CCU_PARENT_NAME(vctcxo_3m),
+};
+CCU_MUX_DIV_GATE_DEFINE(rcpu_uart0_clk, rcpu_uart_parents, RCPU_UART0_CLK_RST, 8, 11, 4, 2,
+			BIT(2) | BIT(1), 0);
+/* RCPU clocks end */
+
+/* AUDPMU clocks start */
+CCU_DIV_DEFINE(audio_axi_clk, CCU_PARENT_HW(audio_clk), AUDPMU_AUDIO_BUS_CLK_RES_CTRL, 0, 2,
+	       CLK_DIVIDER_POWER_OF_TWO | CLK_DIVIDER_ALLOW_ZERO);
+CCU_DIV_DEFINE(audio_apb_clk, CCU_PARENT_HW(audio_clk), AUDPMU_AUDIO_BUS_CLK_RES_CTRL, 4, 3,
+	       CLK_DIVIDER_POWER_OF_TWO | CLK_DIVIDER_ALLOW_ZERO);
+/* AUDPMU clocks end */
+
 static struct clk_hw *k1_ccu_pll_hws[] = {
 	[CLK_PLL1]		= &pll1.common.hw,
 	[CLK_PLL2]		= &pll2.common.hw,
@@ -989,8 +1007,14 @@ static const struct spacemit_ccu_data k1_ccu_apmu_data = {
 	.num		= ARRAY_SIZE(k1_ccu_apmu_hws),
 };
 
+static struct clk_hw *k1_ccu_rcpu_hws[] = {
+	[CLK_RCPU_UART0]	= &rcpu_uart0_clk.common.hw,
+};
+
 static const struct spacemit_ccu_data k1_ccu_rcpu_data = {
 	.reset_name	= "rcpu-reset",
+	.hws		= k1_ccu_rcpu_hws,
+	.num		= ARRAY_SIZE(k1_ccu_rcpu_hws),
 };
 
 static const struct spacemit_ccu_data k1_ccu_rcpu2_data = {
@@ -1000,7 +1024,15 @@ static const struct spacemit_ccu_data k1_ccu_rcpu2_data = {
 static const struct spacemit_ccu_data k1_ccu_apbc2_data = {
 	.reset_name	= "apbc2-reset",
 };
+
+static struct clk_hw *k1_ccu_audpmu_hws[] = {
+	[CLK_AUDIO_AXI]		= &audio_axi_clk.common.hw,
+	[CLK_AUDIO_APB]		= &audio_apb_clk.common.hw,
+};
+
 static const struct spacemit_ccu_data k1_ccu_audpmu_data = {
+	.hws		= k1_ccu_audpmu_hws,
+	.num		= ARRAY_SIZE(k1_ccu_audpmu_hws),
 };
 
 static int spacemit_ccu_register(struct device *dev,
