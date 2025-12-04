@@ -1000,6 +1000,8 @@ static const struct spacemit_ccu_data k1_ccu_rcpu2_data = {
 static const struct spacemit_ccu_data k1_ccu_apbc2_data = {
 	.reset_name	= "apbc2-reset",
 };
+static const struct spacemit_ccu_data k1_ccu_audpmu_data = {
+};
 
 static int spacemit_ccu_register(struct device *dev,
 				 struct regmap *regmap,
@@ -1190,6 +1192,10 @@ static const struct of_device_id of_k1_ccu_match[] = {
 	{
 		.compatible	= "spacemit,k1-syscon-apbc2",
 		.data		= &k1_ccu_apbc2_data,
+	},
+	{
+		.compatible	= "spacemit,k1-syscon-audpmu",
+		.data		= &k1_ccu_audpmu_data,
 	},
 	{ }
 };
