@@ -298,6 +298,14 @@ config RCAR_REMOTEPROC
 	  This can be either built-in or a loadable module.
 	  If compiled as module (M), the module name is rcar_rproc.
 
+config SPACEMIT_RPROC
+	tristate "SpacemiT remoteproc support"
+	depends on ARCH_SPACEMIT
+	help
+	  Say y here to support SpacemiT remote processors via the
+	  remote processor framework.
+	  This can be either built-in or a loadable module.
+
 config ST_REMOTEPROC
 	tristate "ST remoteproc support"
 	depends on ARCH_STI
