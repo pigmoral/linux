@@ -1,0 +1,223 @@
+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/pinctrl/anlogic,dr1v90-pinctrl.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Anlogic DR1V90 SoC Pin Controller
+
+maintainers:
+  - Junhui Liu <junhui.liu@pigmoral.tech>
+
+properties:
+  compatible:
+    const: anlogic,dr1v90-pinctrl
+
+  reg:
+    items:
+      - description: pinctrl io memory base
+
+  vccio200-supply:
+    description: Bank200 (MIO0-15) IO supply, at 1.8V, 2.5V or 3.3V.
+
+  vccio201-supply:
+    description: Bank201 (MIO16-53) IO supply, at 1.8V, 2.5V or 3.3V.
+
+patternProperties:
+  '^(.*-)?(default|gpio-grp)$':
+    type: object
+
+    patternProperties:
+      '^mux':
+        type: object
+
+        description:
+          Select the peripheral function and its MIO pin groups, or an EMIO
+          group to route the peripheral through the programmable logic.
+
+        $ref: pinmux-node.yaml#
+
+        properties:
+          function:
+            description:
+              Function to select for the specified groups.
+            enum: [qspi0, i2c0, i2c1, can0, can1, smc0, uart0, uart1, gpio,
+                   swdt0, ttc0, ttc1, spi0, spi1, sdio0, sdio1, ethernet0,
+                   ethernet1, mdio0, mdio1, usb0, usb1]
+
+          groups:
+            description:
+              Pin groups to configure.
+            $ref: "#/$defs/pin-groups"
+
+        required:
+          - groups
+          - function
+
+        additionalProperties: false
+
+      '^conf':
+        type: object
+        description:
+          Electrical configuration for the MIO pins or groups specified in
+          this subnode.
+        $ref: pincfg-node.yaml#
+
+        properties:
+          groups:
+            description:
+              Pin groups to configure. EMIO groups are excluded as they have no MIO pads.
+            $ref: "#/$defs/pin-groups"
+            items:
+              not:
+                pattern: '_emio_grp$'
+
+          pins:
+            description:
+              MIO pin names to configure individually.
+            items:
+              pattern: '^MIO([0-9]|[1-4][0-9]|5[0-3])$'
+            maxItems: 54
+
+          bias-disable: true
+
+          bias-high-impedance: true
+
+          bias-pull-down:
+            description: |
+              For normal pull down, use boolean 'bias-pull-down' or set to
+              25000. For strong pull down, set to 10000.
+            oneOf:
+              - type: boolean
+              - enum: [10000, 25000]
+                description: Resistance value (ohm).
+
+          bias-pull-up:
+            description: |
+              For normal pull up, use boolean 'bias-pull-up' or set to
+              25000. For strong pull up, set to 10000.
+            oneOf:
+              - type: boolean
+              - enum: [10000, 25000]
+                description: Resistance value (ohm).
+
+          drive-strength:
+            description:
+              Output drive strength in mA, applied to both source and sink
+              drivers.
+            enum: [4, 8, 12, 16, 20]
+
+          input-disable: true
+
+          input-enable: true
+
+          slew-rate:
+            description: |
+              0: slow speed
+              1: medium speed
+              2: fast speed
+            enum: [0, 1, 2]
+
+        oneOf:
+          - required: [groups]
+          - required: [pins]
+
+        additionalProperties: false
+
+    additionalProperties: false
+
+$defs:
+  pin-groups:
+    items:
+      enum: [qspi0_0_grp, i2c0_0_grp, i2c0_1_grp, i2c0_2_grp,
+             i2c0_3_grp, i2c0_4_grp, i2c0_5_grp, i2c0_6_grp,
+             i2c0_7_grp, i2c0_8_grp, i2c0_9_grp, i2c0_10_grp,
+             i2c0_emio_grp, i2c1_0_grp, i2c1_1_grp, i2c1_2_grp,
+             i2c1_3_grp, i2c1_4_grp, i2c1_5_grp, i2c1_6_grp,
+             i2c1_7_grp, i2c1_8_grp, i2c1_9_grp, i2c1_10_grp,
+             i2c1_emio_grp, can0_0_grp, can0_1_grp, can0_2_grp,
+             can0_3_grp, can0_4_grp, can0_5_grp, can0_6_grp,
+             can0_7_grp, can0_8_grp, can0_9_grp, can0_10_grp,
+             can0_emio_grp, can1_0_grp, can1_1_grp, can1_2_grp,
+             can1_3_grp, can1_4_grp, can1_5_grp, can1_6_grp,
+             can1_7_grp, can1_8_grp, can1_9_grp, can1_10_grp,
+             can1_11_grp, can1_emio_grp, smc0_nand16_grp,
+             smc0_nand8_grp, uart0_0_grp, uart0_1_grp, uart0_2_grp,
+             uart0_3_grp, uart0_4_grp, uart0_5_grp, uart0_6_grp,
+             uart0_7_grp, uart0_8_grp, uart0_9_grp, uart0_10_grp,
+             uart0_emio_grp, uart1_0_grp, uart1_1_grp, uart1_2_grp,
+             uart1_3_grp, uart1_4_grp, uart1_5_grp, uart1_6_grp,
+             uart1_7_grp, uart1_8_grp, uart1_9_grp, uart1_10_grp,
+             uart1_11_grp, uart1_emio_grp, swdt0_0_grp, swdt0_1_grp,
+             swdt0_2_grp, swdt0_3_grp, swdt0_4_grp, swdt0_emio_grp,
+             ttc0_0_grp, ttc0_1_grp, ttc0_2_grp, ttc0_emio_grp,
+             ttc1_0_grp, ttc1_1_grp, ttc1_2_grp, ttc1_emio_grp,
+             spi0_0_ss0_grp, spi0_0_ss1_grp, spi0_0_ss2_grp,
+             spi0_1_ss0_grp, spi0_1_ss1_grp, spi0_1_ss2_grp,
+             spi0_2_ss0_grp, spi0_2_ss1_grp, spi0_2_ss2_grp,
+             spi0_emio_grp, spi1_0_ss0_grp, spi1_0_ss1_grp,
+             spi1_0_ss2_grp, spi1_1_ss0_grp, spi1_1_ss1_grp,
+             spi1_1_ss2_grp, spi1_2_ss0_grp, spi1_2_ss1_grp,
+             spi1_2_ss2_grp, spi1_3_ss0_grp, spi1_3_ss1_grp,
+             spi1_3_ss2_grp, spi1_emio_grp, sdio0_0_grp, sdio0_1_grp,
+             sdio0_2_grp, sdio0_emio_grp, sdio1_0_grp, sdio1_1_grp,
+             sdio1_2_grp, sdio1_3_grp, sdio1_emio_grp,
+             ethernet0_0_grp, ethernet1_0_grp, mdio0_0_grp,
+             mdio0_emio_grp, mdio1_0_grp, mdio1_emio_grp,
+             usb0_0_grp, usb1_0_grp, gpio_0_grp, gpio_1_grp,
+             gpio_2_grp, gpio_3_grp, gpio_4_grp, gpio_5_grp,
+             gpio_6_grp, gpio_7_grp, gpio_8_grp, gpio_9_grp,
+             gpio_10_grp, gpio_11_grp, gpio_12_grp, gpio_13_grp,
+             gpio_14_grp, gpio_15_grp, gpio_16_grp, gpio_17_grp,
+             gpio_18_grp, gpio_19_grp, gpio_20_grp, gpio_21_grp,
+             gpio_22_grp, gpio_23_grp, gpio_24_grp, gpio_25_grp,
+             gpio_26_grp, gpio_27_grp, gpio_28_grp, gpio_29_grp,
+             gpio_30_grp, gpio_31_grp, gpio_32_grp, gpio_33_grp,
+             gpio_34_grp, gpio_35_grp, gpio_36_grp, gpio_37_grp,
+             gpio_38_grp, gpio_39_grp, gpio_40_grp, gpio_41_grp,
+             gpio_42_grp, gpio_43_grp, gpio_44_grp, gpio_45_grp,
+             gpio_46_grp, gpio_47_grp, gpio_48_grp, gpio_49_grp,
+             gpio_50_grp, gpio_51_grp, gpio_52_grp, gpio_53_grp]
+
+required:
+  - compatible
+  - reg
+  - vccio200-supply
+  - vccio201-supply
+
+additionalProperties: false
+
+examples:
+  - |
+    pinctrl@f8803000 {
+      compatible = "anlogic,dr1v90-pinctrl";
+      reg = <0xf8803000 0x1000>;
+      vccio200-supply = <&vcc_1v8>;
+      vccio201-supply = <&vcc_1v8>;
+
+      uart1_default: uart1-default {
+        mux {
+          function = "uart1";
+          groups = "uart1_10_grp";
+        };
+
+        conf {
+          groups = "uart1_10_grp";
+          slew-rate = <0>;
+        };
+
+        conf-tx {
+          pins = "MIO48";
+          bias-disable;
+          input-disable;
+        };
+
+        conf-rx {
+          pins = "MIO49";
+          bias-pull-up;
+          input-enable;
+        };
+      };
+    };
+
+...
