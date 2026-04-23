@@ -229,6 +229,15 @@ config PINCTRL_DIGICOLOR
 	select PINMUX
 	select GENERIC_PINCONF
 
+config PINCTRL_DR1V90
+	tristate "Anlogic DR1V90 PINCTRL driver"
+	depends on ARCH_ANLOGIC || COMPILE_TEST
+	select PINMUX
+	select GENERIC_PINCONF
+	select REGULATOR
+	help
+	  This driver support for the pin controller in Anlogic's DR1V90 SoC.
+
 config PINCTRL_EIC7700
 	tristate "EIC7700 PINCTRL driver"
 	depends on ARCH_ESWIN || COMPILE_TEST
