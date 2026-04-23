@@ -113,6 +113,11 @@
 			status = "disabled";
 		};
 
+		pinctrl: pinctrl@f8803000 {
+			compatible = "anlogic,dr1v90-pinctrl";
+			reg = <0x0 0xf8803000 0x0 0x1000>;
+		};
+
 		cru: clock-controller@f8801000 {
 			compatible = "anlogic,dr1v90-cru";
 			reg = <0x0 0xf8801000 0 0x400>;
