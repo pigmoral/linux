@@ -44,21 +44,9 @@
 	};
 
 	clocks {
-		can_ext: clock-ext-can {
-			compatible = "fixed-clock";
-			clock-output-names = "can_ext";
-			#clock-cells = <0>;
-		};
-
 		osc: clock-osc {
 			compatible = "fixed-clock";
 			clock-output-names = "osc";
-			#clock-cells = <0>;
-		};
-
-		wdt_ext: clock-ext-wdt {
-			compatible = "fixed-clock";
-			clock-output-names = "wdt_ext";
 			#clock-cells = <0>;
 		};
 	};
@@ -128,8 +116,8 @@
 		cru: clock-controller@f8801000 {
 			compatible = "anlogic,dr1v90-cru";
 			reg = <0x0 0xf8801000 0 0x400>;
-			clocks = <&osc>, <&can_ext>, <&wdt_ext>;
-			clock-names = "osc", "can_ext", "wdt_ext";
+			clocks = <&osc>;
+			clock-names = "osc";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};
