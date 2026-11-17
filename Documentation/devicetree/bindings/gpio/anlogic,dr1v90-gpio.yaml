@@ -1,0 +1,106 @@
+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+%YAML 1.2
+---
+$id: http://devicetree.org/schemas/gpio/anlogic,dr1v90-gpio.yaml#
+$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+title: Anlogic DR1V90 GPIO controller
+
+maintainers:
+  - Junhui Liu <junhui.liu@pigmoral.tech>
+
+description:
+  The DR1V90 has four GPIO controllers with up to 32 lines each, connecting
+  to MIO pads or programmable logic.
+
+properties:
+  $nodename:
+    pattern: "^gpio@[0-9a-f]+$"
+
+  compatible:
+    const: anlogic,dr1v90-gpio
+
+  reg:
+    maxItems: 1
+
+  clocks:
+    items:
+      - description: APB interface clock
+      - description: Input debounce clock
+
+  clock-names:
+    items:
+      - const: bus
+      - const: db
+
+  resets:
+    maxItems: 1
+
+  gpio-controller: true
+
+  "#gpio-cells":
+    const: 2
+
+  ngpios:
+    minimum: 1
+    maximum: 32
+
+  gpio-line-names:
+    minItems: 1
+    maxItems: 32
+
+  gpio-ranges: true
+
+  gpio-reserved-ranges: true
+
+  interrupts:
+    maxItems: 1
+
+  interrupt-controller: true
+
+  "#interrupt-cells":
+    const: 2
+
+patternProperties:
+  "^.+-hog(-[0-9]+)?$":
+    type: object
+
+    required:
+      - gpio-hog
+
+required:
+  - compatible
+  - reg
+  - clocks
+  - clock-names
+  - resets
+  - gpio-controller
+  - "#gpio-cells"
+  - ngpios
+  - interrupts
+  - interrupt-controller
+  - "#interrupt-cells"
+
+additionalProperties: false
+
+examples:
+  - |
+    #include <dt-bindings/clock/anlogic,dr1v90-cru.h>
+    #include <dt-bindings/reset/anlogic,dr1v90-cru.h>
+
+    gpio@f8411000 {
+        compatible = "anlogic,dr1v90-gpio";
+        reg = <0xf8411000 0x100>;
+        clocks = <&cru CLK_CPU_1X>, <&cru CLK_GPIO_DB>;
+        clock-names = "bus", "db";
+        resets = <&cru RESET_GPIO>;
+
+        gpio-controller;
+        #gpio-cells = <2>;
+        ngpios = <32>;
+        gpio-ranges = <&pinctrl 0 0 32>;
+
+        interrupts = <53>;
+        interrupt-controller;
+        #interrupt-cells = <2>;
+    };
