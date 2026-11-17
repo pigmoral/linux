@@ -55,6 +55,31 @@ config ERRATA_MIPS_P8700_WFI
 
 	   If you are not using the P8700 processor, say n.
 
+config ERRATA_NUCLEI
+	bool "Nuclei errata"
+	help
+	  All Nuclei errata Kconfig depend on this Kconfig. Disabling
+	  this Kconfig will disable all Nuclei errata. Please say "Y"
+	  here if your platform uses Nuclei CPU cores.
+
+	  Otherwise, please say "N" here to avoid unnecessary overhead.
+
+config ERRATA_NUCLEI_CMO
+	bool "Apply Nuclei cache management errata"
+	depends on ERRATA_NUCLEI && MMU
+	depends on !DMA_DIRECT_REMAP
+	depends on NONPORTABLE
+	select DMA_GLOBAL_POOL
+	select RISCV_DMA_NONCOHERENT
+	select RISCV_NONSTANDARD_CACHE_OPS
+	default y
+	help
+	  This will apply the cache management errata to handle the
+	  non-standard handling on non-coherent operations on Nuclei cores
+	  using the Nuclei CCM (Cache Control and Maintenance) mechanism.
+
+	  If you don't know what to do here, say "Y".
+
 config ERRATA_SIFIVE
 	bool "SiFive errata"
 	depends on 64BIT

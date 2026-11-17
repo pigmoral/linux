@@ -14,5 +14,6 @@ endif
 
 obj-$(CONFIG_ERRATA_ANDES) += andes/
 obj-$(CONFIG_ERRATA_MIPS) += mips/
+obj-$(CONFIG_ERRATA_NUCLEI) += nuclei/
 obj-$(CONFIG_ERRATA_SIFIVE) += sifive/
 obj-$(CONFIG_ERRATA_THEAD) += thead/

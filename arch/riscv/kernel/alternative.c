@@ -52,6 +52,11 @@ static void riscv_fill_cpu_mfr_info(struct cpu_manufacturer_info_t *cpu_mfr_info
 		cpu_mfr_info->patch_func = mips_errata_patch_func;
 		break;
 #endif
+#ifdef CONFIG_ERRATA_NUCLEI
+	case NUCLEI_VENDOR_ID:
+		cpu_mfr_info->patch_func = nuclei_errata_patch_func;
+		break;
+#endif
 #ifdef CONFIG_ERRATA_SIFIVE
 	case SIFIVE_VENDOR_ID:
 		cpu_mfr_info->patch_func = sifive_errata_patch_func;
