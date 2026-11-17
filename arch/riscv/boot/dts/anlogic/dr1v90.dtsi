@@ -113,6 +113,68 @@
 			status = "disabled";
 		};
 
+		gpio0: gpio@f8411000 {
+			compatible = "anlogic,dr1v90-gpio";
+			reg = <0x0 0xf8411000 0x0 0x100>;
+			clocks = <&cru CLK_CPU_1X>, <&cru CLK_GPIO_DB>;
+			clock-names = "bus", "db";
+			resets = <&cru RESET_GPIO>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <32>;
+			gpio-ranges = <&pinctrl 0 0 32>;
+			interrupt-controller;
+			#interrupt-cells = <2>;
+			interrupts = <53>;
+			status = "disabled";
+		};
+
+		gpio1: gpio@f8411100 {
+			compatible = "anlogic,dr1v90-gpio";
+			reg = <0x0 0xf8411100 0x0 0x100>;
+			clocks = <&cru CLK_CPU_1X>, <&cru CLK_GPIO_DB>;
+			clock-names = "bus", "db";
+			resets = <&cru RESET_GPIO>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <22>;
+			gpio-ranges = <&pinctrl 0 32 22>;
+			interrupt-controller;
+			#interrupt-cells = <2>;
+			interrupts = <54>;
+			status = "disabled";
+		};
+
+		gpio2: gpio@f8411200 {
+			compatible = "anlogic,dr1v90-gpio";
+			reg = <0x0 0xf8411200 0x0 0x100>;
+			clocks = <&cru CLK_CPU_1X>, <&cru CLK_GPIO_DB>;
+			clock-names = "bus", "db";
+			resets = <&cru RESET_GPIO>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <32>;
+			interrupt-controller;
+			#interrupt-cells = <2>;
+			interrupts = <55>;
+			status = "disabled";
+		};
+
+		gpio3: gpio@f8411300 {
+			compatible = "anlogic,dr1v90-gpio";
+			reg = <0x0 0xf8411300 0x0 0x100>;
+			clocks = <&cru CLK_CPU_1X>, <&cru CLK_GPIO_DB>;
+			clock-names = "bus", "db";
+			resets = <&cru RESET_GPIO>;
+			gpio-controller;
+			#gpio-cells = <2>;
+			ngpios = <32>;
+			interrupt-controller;
+			#interrupt-cells = <2>;
+			interrupts = <56>;
+			status = "disabled";
+		};
+
 		pinctrl: pinctrl@f8803000 {
 			compatible = "anlogic,dr1v90-pinctrl";
 			reg = <0x0 0xf8803000 0x0 0x1000>;
