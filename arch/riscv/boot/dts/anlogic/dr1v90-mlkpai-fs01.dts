@@ -3,6 +3,10 @@
  * Copyright (C) 2025 Junhui Liu <junhui.liu@pigmoral.tech>
  */
 
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/leds/common.h>
+
 #include "dr1v90.dtsi"
 
 / {
@@ -15,6 +19,31 @@
 
 	chosen {
 		stdout-path = "serial0:115200n8";
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+		pinctrl-names = "default";
+		pinctrl-0 = <&key_default>;
+
+		key-user {
+			label = "K4";
+			linux,code = <KEY_PROG1>;
+			gpios = <&gpio1 18 GPIO_ACTIVE_LOW>;
+		};
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&led_default>;
+
+		led-0 {
+			color = <LED_COLOR_ID_RED>;
+			function = LED_FUNCTION_STATUS;
+			gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
 	};
 
 	memory@0 {
@@ -31,6 +60,22 @@
 	};
 };
 
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};
+
+&gpio2 {
+	status = "okay";
+};
+
+&gpio3 {
+	status = "okay";
+};
+
 &osc {
 	clock-frequency = <33333333>;
 };
@@ -44,6 +89,21 @@
 &pinctrl {
 	vccio200-supply = <&vcc_1v8>;
 	vccio201-supply = <&vcc_1v8>;
+
+	key_default: key-default {
+		conf {
+			groups = "gpio_50_grp";
+			bias-disable;
+		};
+	};
+
+	led_default: led-default {
+		conf {
+			groups = "gpio_51_grp";
+			bias-disable;
+			slew-rate = <0>;
+		};
+	};
 
 	uart1_default: uart1-default {
 		mux {
