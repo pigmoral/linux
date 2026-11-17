@@ -51,6 +51,19 @@
 		reg = <0x0 0x0 0x0 0x20000000>;
 	};
 
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		dma: linux,dma@10000000 {
+			compatible = "shared-dma-pool";
+			reg = <0x0 0x10000000 0x0 0x01000000>;
+			no-map;
+			linux,dma-default;
+		};
+	};
+
 	vcc_1v8: regulator-1v8 {
 		compatible = "regulator-fixed";
 		regulator-name = "VCC_1V8";
