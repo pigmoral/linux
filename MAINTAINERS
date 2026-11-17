@@ -2087,6 +2087,15 @@ F:	drivers/reset/reset-dr1v90.c
 F:	include/dt-bindings/clock/anlogic,dr1v90-cru.h
 F:	include/dt-bindings/reset/anlogic,dr1v90-cru.h
 
+ANLOGIC DR1V90 PIN CONTROL AND GPIO DRIVERS
+M:	Junhui Liu <junhui.liu@pigmoral.tech>
+L:	linux-gpio@vger.kernel.org
+S:	Maintained
+F:	Documentation/devicetree/bindings/gpio/anlogic,dr1v90-gpio.yaml
+F:	Documentation/devicetree/bindings/pinctrl/anlogic,dr1v90-pinctrl.yaml
+F:	drivers/gpio/gpio-dr1v90.c
+F:	drivers/pinctrl/pinctrl-dr1v90.c
+
 AOA (Apple Onboard Audio) ALSA DRIVER
 M:	Johannes Berg <johannes@sipsolutions.net>
 L:	linuxppc-dev@lists.ozlabs.org
