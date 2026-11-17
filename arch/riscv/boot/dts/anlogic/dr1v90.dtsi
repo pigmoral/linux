@@ -57,6 +57,7 @@
 		#address-cells = <2>;
 		#size-cells = <2>;
 		ranges;
+		dma-noncoherent;
 
 		aclint_mswi: interrupt-controller@68031000 {
 			compatible = "anlogic,dr1v90-aclint-mswi", "nuclei,ux900-aclint-mswi";
@@ -173,6 +174,20 @@
 			#interrupt-cells = <2>;
 			interrupts = <56>;
 			status = "disabled";
+		};
+
+		dmac: dma-controller@f8418000 {
+			compatible = "arm,pl330", "arm,primecell";
+			reg = <0x0 0xf8418000 0x0 0x1000>;
+			interrupts = <38>, <39>, <40>, <41>, <42>, <43>, <44>, <45>, <46>;
+			#dma-cells = <1>;
+			dma-channels = <8>;
+			dma-requests = <32>;
+			clocks = <&cru CLK_CPU_1X>;
+			clock-names = "apb_pclk";
+			resets = <&cru RESET_DMAC_AXI>;
+			reset-names = "dma-ocp";
+			arm,pl330-periph-burst;
 		};
 
 		pinctrl: pinctrl@f8803000 {
