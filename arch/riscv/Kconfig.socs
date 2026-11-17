@@ -9,6 +9,8 @@ config ARCH_ANDES
 
 config ARCH_ANLOGIC
 	bool "Anlogic SoCs"
+	select ARM_AMBA
+	select ERRATA_NUCLEI
 	help
 	  This enables support for Anlogic SoC platform hardware.
 
